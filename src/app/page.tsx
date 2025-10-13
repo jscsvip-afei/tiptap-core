@@ -1,6 +1,13 @@
+"use client"
 import Editor from '@/components/Editor'
+import { useState } from 'react';
 
 export default function Home() {
+  const [content] = useState('{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"欢迎使用Tiptap编辑器！"}]}]}')
+  function handleUpdate(content: string) {
+    // setContent(content)
+    console.log('内容更新：', content)
+  }
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="container mx-auto px-4">
@@ -17,7 +24,7 @@ export default function Home() {
         {/* 编辑器容器 */}
         <div className="max-w-5xl mx-auto">
           <div className="bg-white rounded-xl shadow-lg p-6">
-            <Editor />
+            <Editor rawContent={content} handleUpdate={handleUpdate} />
           </div>
         </div>
         

@@ -5,7 +5,22 @@ import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
 import Toolbar from './Toolbar'
 
-export default function Editor() {
+interface IProps {
+  rawContent: string
+  handleUpdate: (content: string) => void
+}
+
+// 生成 JSON 内容
+function gen_content(rawContent: string) {
+  try {
+    return JSON.parse(rawContent)
+  } catch (error) {
+    return undefined
+  }
+}
+export default function Editor(props: IProps) {
+  const { rawContent, handleUpdate } = props
+  console.log('Editor received rawContent:', rawContent)
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -13,7 +28,11 @@ export default function Editor() {
         placeholder: '开始编写您的内容...',
       }),
     ],
-    content: '<p>欢迎使用Tiptap编辑器！</p>',
+    content: gen_content(rawContent),
+    onUpdate: ({ editor }) => {
+      const data = editor.getJSON()
+      handleUpdate(JSON.stringify(data))
+    },
     immediatelyRender: false,
     editorProps: {
       attributes: {
