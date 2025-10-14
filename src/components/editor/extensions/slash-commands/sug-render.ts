@@ -93,12 +93,15 @@ const render = () => {
         popup?.[0].show()
       }
 
-      return component.ref?.onKeyDown(props)
+      return component?.ref?.onKeyDown(props)
     },
 
     onExit(props: SuggestionProps) {
       popup?.[0].hide()
-      component.destroy()
+      if (component) {
+        component.destroy()
+        component = null
+      }
     },
   }
 }
