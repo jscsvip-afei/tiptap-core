@@ -4,7 +4,14 @@ import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
 import Toolbar from './Toolbar'
+// 自定义编辑器样式
 import '../styles/tiptap-editor.css'
+
+import Underline from '@tiptap/extension-underline'
+import TextAlign from '@tiptap/extension-text-align'
+import SubScript from '@tiptap/extension-subscript'
+import Superscript from '@tiptap/extension-superscript'
+import TextMenu from './menus/text-menu'
 
 interface IProps {
   rawContent: string
@@ -19,12 +26,19 @@ function gen_content(rawContent: string) {
     return undefined
   }
 }
+
 export default function Editor(props: IProps) {
   const { rawContent, handleUpdate } = props
   console.log('Editor received rawContent:', rawContent)
   const editor = useEditor({
     extensions: [
       StarterKit,
+      Underline,
+      TextAlign.configure({
+        types: ['heading', 'paragraph'],
+      }),
+      SubScript,
+      Superscript,
       Placeholder.configure({
         placeholder: '开始编写您的内容...',
       }),
@@ -57,6 +71,7 @@ export default function Editor(props: IProps) {
           editor={editor} 
           className="min-h-[400px] p-6 rounded-b-lg"
         />
+        <TextMenu editor={editor} />
       </div>
     </div>
   )
