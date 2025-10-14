@@ -1,5 +1,5 @@
 "use client"
-import Editor from '@/components/Editor'
+import Editor from '@/components/editor/Editor'
 import { useState } from 'react';
 
 export default function Home() {

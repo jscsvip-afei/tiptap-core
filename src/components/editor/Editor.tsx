@@ -5,7 +5,7 @@ import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
 import Toolbar from './Toolbar'
 // 自定义编辑器样式
-import '../styles/tiptap-editor.css'
+import '@/styles/tiptap-editor.css'
 
 import Underline from '@tiptap/extension-underline'
 import TextAlign from '@tiptap/extension-text-align'
