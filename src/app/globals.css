@@ -121,3 +121,5 @@
     @apply bg-background text-foreground;
   }
 }
+/* Tiptap 编辑器样式 */
+@import '../styles/tiptap-editor.css'

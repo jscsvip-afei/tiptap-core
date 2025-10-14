@@ -3,8 +3,7 @@
 import { useEditor, EditorContent } from '@tiptap/react'
 // 顶部工具栏
 import Toolbar from './Toolbar'
-// 自定义编辑器样式
-import '@/styles/tiptap-editor.css'
+
 // 编辑器扩展
 import { extensions } from './extensions'
 // 气泡框

@@ -5,6 +5,8 @@ import TextAlign from '@tiptap/extension-text-align'
 import SubScript from '@tiptap/extension-subscript'
 import Superscript from '@tiptap/extension-superscript'
 import Highlight from '@tiptap/extension-highlight'
+import { TaskList, TaskItem  } from '@tiptap/extension-list'
+
 
 
 export const extensions =  [
@@ -19,4 +21,8 @@ export const extensions =  [
       Placeholder.configure({
         placeholder: '开始编写您的内容...',
       }),
+      TaskList,
+      TaskItem.configure({
+        nested: true,
+      })
     ]
