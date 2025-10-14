@@ -9,6 +9,8 @@ import MoreMenu from './more-menu'
 
 import BasicMenu from './basic-menu'
 import ContentTypeMenu from './content-type'
+import { isTextSelected } from '@/components/editor/utils/isTextSelected'
+
 
 
 interface IProps {
@@ -18,11 +20,18 @@ interface IProps {
 export default function TextMenu(props: IProps) {
   const { editor } = props
   if (editor == null) return
+  function shouldShow(editor: Editor) {
+    // 某些类型， 代码块 不显示文本菜单
+    if (editor?.isActive('codeBlock')) return false
 
+    // 其他，看是否选中了文本
+    return isTextSelected({ editor })
+  }
   return (
     <BubbleMenu
       editor={editor}
       updateDelay={100}
+      shouldShow={() => shouldShow(editor)}
     >
       <div
         className="
