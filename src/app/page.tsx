@@ -6,10 +6,11 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { useEditorInstance } from '@/components/editor/useEditorInstance'
 
 export default function Home() {
-  const [content] = useState('{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"欢迎使用Tiptap编辑器！"}]}]}')
+  const [content, setContent] = useState('{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"欢迎使用Tiptap编辑器！"}]}]}')
   
   function handleUpdate(content: string) {
     console.log('内容更新：', content)
+    setContent(content)
   }
   
   const editor = useEditorInstance({
