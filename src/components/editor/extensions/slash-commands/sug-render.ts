@@ -1,3 +1,4 @@
+
 import { ReactRenderer } from '@tiptap/react'
 import { SuggestionProps, SuggestionKeyDownProps } from '@tiptap/suggestion'
 import MenuList from './menu-list'
@@ -5,7 +6,8 @@ import { extensionName, popup } from '.'
 
 const render = () => {
   let component: any
-
+  let scrollElem: HTMLElement
+  let scrollYValue: string
   return {
     onStart: (props: SuggestionProps) => {
       // 渲染 MenuList 组件
@@ -44,6 +46,15 @@ const render = () => {
         content: component.element,
       })
       popup?.[0].show()
+      // 获取编辑器滚动的元素，和 overflowY 的值
+      if (!scrollElem) {
+        scrollElem = document.getElementById('work-content-scroll-container')
+          ?.lastElementChild as HTMLElement
+        scrollYValue = scrollElem.style.overflowY
+        console.log('scrollYValue', scrollYValue)
+      }
+      // 暂时禁止编辑器滚动
+      scrollElem.style.overflowY = 'hidden'
     },
 
     onUpdate(props: SuggestionProps) {
@@ -98,9 +109,11 @@ const render = () => {
 
     onExit(props: SuggestionProps) {
       popup?.[0].hide()
+      
       if (component) {
         component.destroy()
         component = null
+        scrollElem.style.overflowY = scrollYValue
       }
     },
   }

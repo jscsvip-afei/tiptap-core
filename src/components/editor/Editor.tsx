@@ -51,7 +51,7 @@ export default function Editor(props: IProps) {
       
       {/* 编辑器内容区域 - 使用 flex-1 占据剩余空间 */}
       <div className="flex-1 min-h-0">
-        <ScrollArea className="h-full w-full">
+        <ScrollArea className="h-full w-full" id='work-content-scroll-container'>
           <div className="p-6">
             <EditorContent editor={editor} />
           </div>
