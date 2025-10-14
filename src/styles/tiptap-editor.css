@@ -35,6 +35,15 @@
     margin-bottom: 0.5em;
   }
 }
+/* 每一行都显示 placeholder */
+.tiptap p.is-empty::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
 .prose.prose ul[data-type='taskList'] {
     @apply list-none p-0;
 

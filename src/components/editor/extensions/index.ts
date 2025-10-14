@@ -6,6 +6,8 @@ import SubScript from '@tiptap/extension-subscript'
 import Superscript from '@tiptap/extension-superscript'
 import Highlight from '@tiptap/extension-highlight'
 import { TaskList, TaskItem  } from '@tiptap/extension-list'
+import { SlashCommands } from './slash-commands'
+
 
 
 
@@ -19,10 +21,11 @@ export const extensions =  [
       Superscript,
       Highlight.configure({ multicolor: true }),
       Placeholder.configure({
-        placeholder: '开始编写您的内容...',
+        placeholder: '输入 / 设置格式',
       }),
       TaskList,
       TaskItem.configure({
         nested: true,
-      })
+      }),
+       SlashCommands,
     ]
