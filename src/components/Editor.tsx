@@ -37,7 +37,7 @@ export default function Editor(props: IProps) {
     immediatelyRender: false,
     editorProps: {
       attributes: {
-        class: 'prose prose-sm sm:prose-base lg:prose-lg xl:prose-2xl m-5 focus:outline-none',
+        class: 'min-h-96 prose dark:prose-invert focus:outline-none max-w-none',
       },
     },
   })

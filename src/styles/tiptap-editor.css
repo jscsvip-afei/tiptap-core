@@ -1,1 +1,37 @@
 /* Tiptap 编辑器专用样式 */
+/* Alternative approach using higher specificity */
+@layer utilities {
+  .prose.prose h2,
+  .prose.prose h3,
+  .prose.prose h4,
+  .prose.prose h5,
+  .prose.prose ul,
+  .prose.prose ol {
+    margin-top: 0.5em;
+    margin-bottom: 0.3em;
+  }
+  
+  .prose.prose p,
+  .prose.prose pre,
+  .prose.prose blockquote {
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
+  }
+  
+  .prose.prose li {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+  
+  .prose.prose li > p,
+  .prose.prose li > ul,
+  .prose.prose li > ol {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+  
+  .prose.prose hr {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+}
