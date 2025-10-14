@@ -10,21 +10,25 @@ interface ToolbarProps {
 export default function Toolbar({ editor }: ToolbarProps) {
   const [canUndo, setCanUndo] = useState(false)
   const [canRedo, setCanRedo] = useState(false)
+  const [, forceUpdate] = useState({})
 
   useEffect(() => {
-    const updateHistoryState = () => {
+    const updateState = () => {
       setCanUndo(editor.can().undo())
       setCanRedo(editor.can().redo())
+      forceUpdate({}) // 强制重新渲染以更新 isActive 状态
     }
 
     // 初始状态
-    updateHistoryState()
+    updateState()
 
     // 监听编辑器更新
-    editor.on('transaction', updateHistoryState)
+    editor.on('transaction', updateState)
+    editor.on('selectionUpdate', updateState)
 
     return () => {
-      editor.off('transaction', updateHistoryState)
+      editor.off('transaction', updateState)
+      editor.off('selectionUpdate', updateState)
     }
   }, [editor])
 

@@ -10,6 +10,7 @@ import MoreMenu from './more-menu'
 import BasicMenu from './basic-menu'
 import ContentTypeMenu from './content-type'
 import { isTextSelected } from '@/components/editor/utils/isTextSelected'
+import { useState, useEffect } from 'react'
 
 
 
@@ -19,7 +20,28 @@ interface IProps {
 
 export default function TextMenu(props: IProps) {
   const { editor } = props
+  const [, forceUpdate] = useState({})
+  
+  // 监听编辑器状态变化，强制组件重新渲染以更新 isActive
+  useEffect(() => {
+    if (!editor) return
+
+    const handleUpdate = () => {
+      forceUpdate({})
+    }
+
+    // 监听事务和选区更新
+    editor.on('transaction', handleUpdate)
+    editor.on('selectionUpdate', handleUpdate)
+
+    return () => {
+      editor.off('transaction', handleUpdate)
+      editor.off('selectionUpdate', handleUpdate)
+    }
+  }, [editor])
+  
   if (editor == null) return
+  
   function shouldShow(editor: Editor) {
     // 某些类型， 代码块 不显示文本菜单
     if (editor?.isActive('codeBlock')) return false
@@ -27,6 +49,7 @@ export default function TextMenu(props: IProps) {
     // 其他，看是否选中了文本
     return isTextSelected({ editor })
   }
+  
   return (
     <BubbleMenu
       editor={editor}
@@ -39,6 +62,10 @@ export default function TextMenu(props: IProps) {
           bg-background dark:bg-background-dark dark:border-gray-800 dark:shadow-lg 
           inline-flex space-x-1
         "
+        onMouseDown={(e) => {
+          // 阻止默认行为，防止失去焦点
+          e.preventDefault()
+        }}
       >
         <ContentTypeMenu editor={editor} />
         <BasicMenu editor={editor} />
