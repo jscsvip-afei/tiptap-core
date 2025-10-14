@@ -1,16 +1,13 @@
 'use client'
 
 import { useEditor, EditorContent } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
-import Placeholder from '@tiptap/extension-placeholder'
+// 顶部工具栏
 import Toolbar from './Toolbar'
 // 自定义编辑器样式
 import '@/styles/tiptap-editor.css'
-
-import Underline from '@tiptap/extension-underline'
-import TextAlign from '@tiptap/extension-text-align'
-import SubScript from '@tiptap/extension-subscript'
-import Superscript from '@tiptap/extension-superscript'
+// 编辑器扩展
+import { extensions } from './extensions'
+// 气泡框
 import TextMenu from './menus/text-menu'
 
 interface IProps {
@@ -31,18 +28,7 @@ export default function Editor(props: IProps) {
   const { rawContent, handleUpdate } = props
   console.log('Editor received rawContent:', rawContent)
   const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Underline,
-      TextAlign.configure({
-        types: ['heading', 'paragraph'],
-      }),
-      SubScript,
-      Superscript,
-      Placeholder.configure({
-        placeholder: '开始编写您的内容...',
-      }),
-    ],
+    extensions,
     content: gen_content(rawContent),
     onUpdate: ({ editor }) => {
       const data = editor.getJSON()
