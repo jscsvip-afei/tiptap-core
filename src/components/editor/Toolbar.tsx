@@ -29,7 +29,7 @@ export default function Toolbar({ editor }: ToolbarProps) {
   }, [editor])
 
   return (
-    <div className="border border-gray-300 rounded-t-lg bg-gray-50 p-3">
+    <div className="bg-gray-100 p-3">
       <div className="flex flex-wrap gap-2">
         <button
           onClick={() => editor.chain().focus().toggleBold().run()}

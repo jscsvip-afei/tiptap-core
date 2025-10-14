@@ -1,63 +1,24 @@
 'use client'
 
-import { useEditor, EditorContent } from '@tiptap/react'
-// 顶部工具栏
-import Toolbar from './Toolbar'
-
-// 编辑器扩展
-import { extensions } from './extensions'
+import { EditorContent, Editor as TiptapEditor } from '@tiptap/react'
 // 气泡框
 import TextMenu from './menus/text-menu'
 
 interface IProps {
-  rawContent: string
-  handleUpdate: (content: string) => void
-}
-
-// 生成 JSON 内容
-function gen_content(rawContent: string) {
-  try {
-    return JSON.parse(rawContent)
-  } catch (error) {
-    return undefined
-  }
+  editor: TiptapEditor
 }
 
 export default function Editor(props: IProps) {
-  const { rawContent, handleUpdate } = props
-  console.log('Editor received rawContent:', rawContent)
-  const editor = useEditor({
-    extensions,
-    content: gen_content(rawContent),
-    onUpdate: ({ editor }) => {
-      const data = editor.getJSON()
-      handleUpdate(JSON.stringify(data))
-    },
-    immediatelyRender: false,
-    editorProps: {
-      attributes: {
-        class: 'min-h-96 prose dark:prose-invert focus:outline-none max-w-none',
-      },
-    },
-  })
-
-  if (!editor) {
-    return null
-  }
+  const { editor } = props
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
-      {/* 工具栏 */}
-      <Toolbar editor={editor} />
-      
+    <div className="w-full max-w-none mx-auto">
       {/* 编辑器内容区域 */}
-      <div className="border border-t-0 border-gray-300 rounded-b-lg bg-white">
-        <EditorContent 
-          editor={editor} 
-          className="min-h-[400px] p-6 rounded-b-lg"
-        />
-        <TextMenu editor={editor} />
-      </div>
+      <EditorContent 
+        editor={editor} 
+        className="h-full"
+      />
+      <TextMenu editor={editor} />
     </div>
   )
 }
