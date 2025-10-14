@@ -48,8 +48,7 @@ const render = () => {
       popup?.[0].show()
       // 获取编辑器滚动的元素，和 overflowY 的值
       if (!scrollElem) {
-        scrollElem = document.getElementById('work-content-scroll-container')
-          ?.lastElementChild as HTMLElement
+        scrollElem = document.getElementById('work-content-scroll-container') as HTMLElement
         scrollYValue = scrollElem.style.overflowY
         console.log('scrollYValue', scrollYValue)
       }
@@ -59,6 +58,8 @@ const render = () => {
 
     onUpdate(props: SuggestionProps) {
       // 更新组件
+      if (!component) return null
+
       component.updateProps(props)
 
       // 更新弹层位置

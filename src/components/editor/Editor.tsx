@@ -5,7 +5,6 @@ import { extensions } from './extensions'
 // 气泡框
 import TextMenu from './menus/text-menu'
 import Toolbar from './Toolbar'
-import { ScrollArea } from '@/components/ui/scroll-area'
 
 interface IProps {
   rawContent: string
@@ -51,11 +50,14 @@ export default function Editor(props: IProps) {
       
       {/* 编辑器内容区域 - 使用 flex-1 占据剩余空间 */}
       <div className="flex-1 min-h-0">
-        <ScrollArea className="h-full w-full" id='work-content-scroll-container'>
+          <div
+            id="work-content-scroll-container"
+            className="h-full w-full overflow-y-auto"
+          >
           <div className="p-6">
             <EditorContent editor={editor} />
           </div>
-        </ScrollArea>
+          </div>
       </div>
       
       <TextMenu editor={editor} />
