@@ -4,6 +4,9 @@ import { Editor } from '@tiptap/react'
 import { BubbleMenu } from '@tiptap/react/menus'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
+import HighlightMenu from './highlight-menu'
+
+
 import {
   Bold,
   Italic,
@@ -115,6 +118,7 @@ export default function TextMenu(props: IProps) {
         >
           <Subscript className="h-4 w-4" />
         </Button>
+        <HighlightMenu editor={editor} />
       </div>
     </BubbleMenu>
   )

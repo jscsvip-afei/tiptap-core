@@ -4,6 +4,8 @@ import Underline from '@tiptap/extension-underline'
 import TextAlign from '@tiptap/extension-text-align'
 import SubScript from '@tiptap/extension-subscript'
 import Superscript from '@tiptap/extension-superscript'
+import Highlight from '@tiptap/extension-highlight'
+
 
 export const extensions =  [
       StarterKit,
@@ -13,6 +15,7 @@ export const extensions =  [
       }),
       SubScript,
       Superscript,
+      Highlight.configure({ multicolor: true }),
       Placeholder.configure({
         placeholder: '开始编写您的内容...',
       }),
