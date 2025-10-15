@@ -97,10 +97,41 @@ const MenuList = React.forwardRef((props: MenuListProps, ref) => {
 
   useEffect(() => {
     if (activeItem.current && scrollContainer.current) {
-      const offsetTop = activeItem.current.offsetTop
-      const offsetHeight = activeItem.current.offsetHeight
-
-      scrollContainer.current.scrollTop = offsetTop - offsetHeight // 计算 container scrollTop
+      const container = scrollContainer.current
+      const element = activeItem.current
+      
+      const containerHeight = container.clientHeight
+      const containerScrollTop = container.scrollTop
+      const elementTop = element.offsetTop
+      const elementHeight = element.offsetHeight
+      
+      // 检查元素是否在可视区域内
+      const elementBottom = elementTop + elementHeight
+      const containerBottom = containerScrollTop + containerHeight
+      
+      // 添加一些边距，让滚动更自然
+      const margin = 32 // 增加边距，为分组标题留出空间
+      
+      let targetScrollTop = null
+      
+      // 如果元素在可视区域上方，滚动到元素顶部（带更大边距）
+      if (elementTop < containerScrollTop + margin) {
+        // 向上滚动时使用更大的边距，确保分组标题可见
+        const extraMargin = selectedCommandIndex === 0 ? 48 : 24 // 如果是分组第一个元素，留更多空间
+        targetScrollTop = Math.max(0, elementTop - extraMargin)
+      }
+      // 如果元素在可视区域下方，滚动到元素底部可见（带边距）
+      else if (elementBottom > containerBottom - margin) {
+        targetScrollTop = elementBottom - containerHeight + margin
+      }
+      
+      // 使用平滑滚动
+      if (targetScrollTop !== null) {
+        container.scrollTo({
+          top: targetScrollTop,
+          behavior: 'smooth'
+        })
+      }
     }
   }, [selectedCommandIndex, selectedGroupIndex])
 
@@ -143,6 +174,7 @@ const MenuList = React.forwardRef((props: MenuListProps, ref) => {
               return (
                 <Button
                   key={command.name}
+                  ref={isActive ? activeItem : null}
                   onClick={createCommandClickHandler(groupIndex, commandIndex)}
                   variant={isActive ? 'secondary' : 'ghost'}
                   className="h-auto justify-start px-2"

@@ -18,6 +18,7 @@ const render = () => {
 
       // 计算位置和尺寸，以便定位弹层
       const getReferenceClientRect = () => {
+        if (!component) return null
         if (!props.clientRect) {
           return props.editor.storage[extensionName].rect
         }
