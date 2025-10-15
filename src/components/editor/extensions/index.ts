@@ -6,12 +6,21 @@ import Superscript from '@tiptap/extension-superscript'
 import Highlight from '@tiptap/extension-highlight'
 import { TaskList, TaskItem  } from '@tiptap/extension-list'
 import { SlashCommands } from './slash-commands'
+import Document from './document'
+import { Columns, Column } from './column'
+
+
 
 
 
 
 export const extensions =  [
-      StarterKit,
+      Document,
+      Columns,
+      Column,
+      StarterKit.configure({
+        document: false,
+      }),
       TextAlign.configure({
         types: ['heading', 'paragraph'],
       }),

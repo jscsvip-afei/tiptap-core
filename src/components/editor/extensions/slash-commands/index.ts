@@ -51,7 +51,7 @@ export const SlashCommands = Extension.create({
           const isParagraph = $from.parent.type.name === 'paragraph' // 在 paragraph 中
           const isStartOfNode = $from.parent.textContent?.charAt(0) === '/' // 在节点的开头
 
-          // TODO 判断是否在 column 中，column 我们接下来我们马上要开发，这里先占位
+          // 判断是否在 column 中
           const isInColumn = this.editor.isActive('column')
 
           // 判断 `/` 后续内容，不是两个空格

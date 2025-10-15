@@ -1,10 +1,13 @@
 'use client'
 
+import { useRef } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
 import { extensions } from './extensions'
 // 气泡框
 import TextMenu from './menus/text-menu'
 import Toolbar from './Toolbar'
+import ColumnsMenu from './menus/columns-menu'
+
 
 interface IProps {
   rawContent: string
@@ -23,6 +26,7 @@ function genContent(rawContent: string) {
 
 export default function Editor(props: IProps) {
   const { rawContent, handleUpdate } = props
+  const menuContainerRef = useRef(null)
 
   const editor = useEditor({
     extensions,
@@ -54,13 +58,16 @@ export default function Editor(props: IProps) {
             id="work-content-scroll-container"
             className="h-full w-full overflow-y-auto"
           >
-          <div className="p-6">
+          <div className="p-6"  ref={menuContainerRef}>
             <EditorContent editor={editor} />
+            <TextMenu editor={editor} />
+            <ColumnsMenu editor={editor} appendTo={menuContainerRef} />
           </div>
           </div>
       </div>
       
-      <TextMenu editor={editor} />
+     
     </div>
+    
   )
 }
