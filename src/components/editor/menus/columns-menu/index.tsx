@@ -1,10 +1,8 @@
-import {  Editor } from '@tiptap/react'
+import { Editor, findParentNode, posToDOMRect } from '@tiptap/react'
 import { BubbleMenu } from '@tiptap/react/menus'
 import { useCallback } from 'react'
-import { sticky } from 'tippy.js'
 import { v4 as uuid } from 'uuid'
 import { Columns2, PanelLeft, PanelRight, Trash2 } from 'lucide-react'
-import { getRenderContainer } from '@/components/editor/utils/getRenderContainer'
 import { ColumnLayout } from '@/components/editor/extensions/column/Columns'
 import { Button } from '@/components/ui/button'
 
@@ -16,23 +14,29 @@ interface IProps {
 export default function ColumnsMenu(props: IProps) {
   const { editor, appendTo } = props
 
-  // 计算菜单的定位
-  const getReferenceClientRect = useCallback(() => {
-    if (editor == null) return new DOMRect(-1000, -1000, 0, 0)
-
-    const renderContainer = getRenderContainer(editor, 'columns')
-    const rect =
-      renderContainer?.getBoundingClientRect() ||
-      new DOMRect(-1000, -1000, 0, 0)
-
-    return rect
-  }, [editor])
-
   // 菜单是否应该显示
   const shouldShow = useCallback(() => {
     if (editor == null) return false
     const isColumns = editor.isActive('columns')
     return isColumns
+  }, [editor])
+
+  // 获取 columns 节点的虚拟元素，用于定位
+  const getReferencedVirtualElement = useCallback(() => {
+    if (!editor) return null
+    
+    const parentNode = findParentNode(
+      node => node.type.name === 'columns'
+    )(editor.state.selection)
+    
+    if (parentNode) {
+      const domRect = posToDOMRect(editor.view, parentNode.start, parentNode.start + parentNode.node.nodeSize)
+      return {
+        getBoundingClientRect: () => domRect,
+        getClientRects: () => [domRect],
+      }
+    }
+    return null
   }, [editor])
 
   // left
@@ -82,16 +86,10 @@ export default function ColumnsMenu(props: IProps) {
       pluginKey={`columnsMenu-${uuid()}`} // 多个菜单，需要不同的 key
       updateDelay={100}
       shouldShow={shouldShow}
-      // BubbleMenu 是基于 tippy 开发的，所以它可以传入一些 tippy 的配置 https://atomiks.github.io/tippyjs/v6/all-props/
-      tippyOptions={{
-        offset: [0, 8],
-        popperOptions: {
-          modifiers: [{ name: 'flip', enabled: false }],
-        },
-        getReferenceClientRect,
-        appendTo: () => appendTo?.current,
-        plugins: [sticky],
-        sticky: 'popper',
+      getReferencedVirtualElement={getReferencedVirtualElement}
+      options={{
+        placement: 'top',
+        offset: 8,
       }}
     >
       <div
