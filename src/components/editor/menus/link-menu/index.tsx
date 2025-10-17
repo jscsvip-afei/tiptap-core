@@ -41,7 +41,13 @@ export default function LinkMenu(props: IProps) {
 
   const shouldShow = useCallback(() => {
     if (editor == null) return false
-    return editor.isActive('link')
+    const isActive = editor.isActive('link')
+    if (!isActive) return false
+
+    const { empty } = editor.state.selection
+    if (!empty) return false
+
+    return true
   }, [editor])
 
   const setLink = useCallback((url: string, openInNewTab?: boolean) => {

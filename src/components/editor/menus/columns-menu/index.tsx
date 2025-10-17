@@ -19,8 +19,13 @@ export default function ColumnsMenu(props: IProps) {
   const shouldShow = useCallback(() => {
     if (editor == null) return false
     const isColumns = editor.isActive('columns')
-    return isColumns
-  }, [editor])
+    if (!isColumns) return false
+
+    const { empty } = editor.state.selection
+    if (!empty) return false
+
+    return true
+ }, [editor])
 
   // 获取 columns 节点的虚拟元素，用于定位
   const getReferencedVirtualElement = useCallback(() => {
