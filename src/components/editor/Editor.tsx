@@ -7,6 +7,7 @@ import { extensions } from './extensions'
 import TextMenu from './menus/text-menu'
 import Toolbar from './Toolbar'
 import ColumnsMenu from './menus/columns-menu'
+import LinkMenu from './menus/link-menu'
 
 
 interface IProps {
@@ -61,7 +62,8 @@ export default function Editor(props: IProps) {
           <div className="p-6"  ref={menuContainerRef}>
             <EditorContent editor={editor} />
             <TextMenu editor={editor} />
-            <ColumnsMenu editor={editor} appendTo={menuContainerRef} />
+            <LinkMenu editor={editor} />
+            <ColumnsMenu editor={editor} />
           </div>
           </div>
       </div>

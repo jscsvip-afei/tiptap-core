@@ -14,12 +14,14 @@ import { Columns, Column } from './column'
 
 
 
+
 export const extensions =  [
       Document,
       Columns,
       Column,
       StarterKit.configure({
         document: false,
+        link: { openOnClick: false },
       }),
       TextAlign.configure({
         types: ['heading', 'paragraph'],
@@ -34,5 +36,5 @@ export const extensions =  [
       TaskItem.configure({
         nested: true,
       }),
-       SlashCommands,
+      SlashCommands,
     ]

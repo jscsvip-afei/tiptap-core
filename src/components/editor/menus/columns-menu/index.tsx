@@ -5,14 +5,15 @@ import { v4 as uuid } from 'uuid'
 import { Columns2, PanelLeft, PanelRight, Trash2 } from 'lucide-react'
 import { ColumnLayout } from '@/components/editor/extensions/column/Columns'
 import { Button } from '@/components/ui/button'
+import Wrapper from '../bubble-menu-wrapper'
+
 
 interface IProps {
   editor: Editor | null
-  appendTo: React.RefObject<any>
 }
 
 export default function ColumnsMenu(props: IProps) {
-  const { editor, appendTo } = props
+  const { editor } = props
 
   // 菜单是否应该显示
   const shouldShow = useCallback(() => {
@@ -92,13 +93,7 @@ export default function ColumnsMenu(props: IProps) {
         offset: 8,
       }}
     >
-      <div
-        className="
-          border rounded p-1 shadow
-          bg-background dark:bg-background-dark dark:border-gray-800 dark:shadow-lg 
-          inline-flex space-x-1
-        "
-      >
+      <Wrapper>
         <Button
           size="sm"
           onClick={onColumnLeft}
@@ -127,7 +122,7 @@ export default function ColumnsMenu(props: IProps) {
         >
           <Trash2 className="h-4 w-4" />
         </Button>
-      </div>
+      </Wrapper>
     </BubbleMenu>
   )
 }

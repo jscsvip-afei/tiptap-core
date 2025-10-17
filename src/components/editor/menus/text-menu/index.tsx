@@ -11,6 +11,8 @@ import BasicMenu from './basic-menu'
 import ContentTypeMenu from './content-type'
 import { isTextSelected } from '@/components/editor/utils/isTextSelected'
 import { useState, useEffect } from 'react'
+import SetLinkMenu from './set-link-menu'
+import Wrapper from '../bubble-menu-wrapper'
 
 
 
@@ -56,26 +58,17 @@ export default function TextMenu(props: IProps) {
       updateDelay={100}
       shouldShow={() => shouldShow(editor)}
     >
-      <div
-        className="
-          border rounded p-1 shadow
-          bg-background dark:bg-background-dark dark:border-gray-800 dark:shadow-lg 
-          inline-flex space-x-1
-        "
-        onMouseDown={(e) => {
-          // 阻止默认行为，防止失去焦点
-          e.preventDefault()
-        }}
-      >
+      <Wrapper>
         <ContentTypeMenu editor={editor} />
         <BasicMenu editor={editor} />
+        <SetLinkMenu editor={editor} />
         <Separator orientation="vertical" className="border !h-auto" />
         <HighlightMenu editor={editor} />
          <Separator orientation="vertical" className="border !h-auto" />
         <AlignMenu editor={editor} />
         <Separator orientation="vertical" className="border !h-auto" />
         <MoreMenu editor={editor} />
-      </div>
+      </Wrapper>
     </BubbleMenu>
   )
 }
