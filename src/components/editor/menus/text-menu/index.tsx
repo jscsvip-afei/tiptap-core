@@ -10,7 +10,6 @@ import MoreMenu from './more-menu'
 import BasicMenu from './basic-menu'
 import ContentTypeMenu from './content-type'
 import { isTextSelected } from '@/components/editor/utils/isTextSelected'
-import { useState, useEffect } from 'react'
 import SetLinkMenu from './set-link-menu'
 import Wrapper from '../bubble-menu-wrapper'
 
@@ -22,25 +21,6 @@ interface IProps {
 
 export default function TextMenu(props: IProps) {
   const { editor } = props
-  const [, forceUpdate] = useState({})
-  
-  // 监听编辑器状态变化，强制组件重新渲染以更新 isActive
-  useEffect(() => {
-    if (!editor) return
-
-    const handleUpdate = () => {
-      forceUpdate({})
-    }
-
-    // 监听事务和选区更新
-    editor.on('transaction', handleUpdate)
-    editor.on('selectionUpdate', handleUpdate)
-
-    return () => {
-      editor.off('transaction', handleUpdate)
-      editor.off('selectionUpdate', handleUpdate)
-    }
-  }, [editor])
   
   if (editor == null) return
   

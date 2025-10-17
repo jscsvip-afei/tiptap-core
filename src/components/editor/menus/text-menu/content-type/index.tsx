@@ -1,4 +1,4 @@
-import { Editor } from '@tiptap/react'
+import { Editor, useEditorState } from '@tiptap/react'
 import { Button } from '@/components/ui/button'
 import {
   Popover,
@@ -14,20 +14,25 @@ interface IProps {
 
 export default function ContentTypeMenu(props: IProps) {
   const { editor } = props
+  if (editor == null) return null
   const options = useContentType(editor)
 
-  if (editor == null) return
+  const { activeId } = useEditorState({
+    editor,
+    selector: () => {
+      const active = options.find((op) => op.isActive())
+      return { activeId: active?.id }
+    },
+  })
 
-  function getLabel() {
-    const item = options.find((op) => op.isActive())
-    return item?.label ?? '段落'
-  }
+  const currentLabel =
+    options.find((op) => op.id === activeId)?.label ?? '段落'
 
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button variant="ghost" size="sm">
-          {getLabel()}
+          {currentLabel}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>

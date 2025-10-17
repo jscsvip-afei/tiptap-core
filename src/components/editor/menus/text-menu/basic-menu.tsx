@@ -1,4 +1,4 @@
-import { Editor } from '@tiptap/react'
+import { Editor, useEditorState } from '@tiptap/react'
 import { Button } from '@/components/ui/button'
 import { Bold, Italic, Code, Underline } from 'lucide-react'
 
@@ -8,35 +8,45 @@ interface IProps {
 
 export default function BasicMenu(props: IProps) {
   const { editor } = props
-  if (editor == null) return
+  if (editor == null) return null
+
+  const { isBold, isUnderline, isItalic, isCode } = useEditorState({
+    editor,
+    selector: (ctx) => ({
+      isBold: ctx.editor.isActive('bold'),
+      isUnderline: ctx.editor.isActive('underline'),
+      isItalic: ctx.editor.isActive('italic'),
+      isCode: ctx.editor.isActive('code'),
+    }),
+  })
 
   return (
     <>
       <Button
         size="sm"
         onClick={() => editor.chain().focus().toggleBold().run()}
-        variant={editor.isActive('bold') ? 'secondary' : 'ghost'}
+        variant={isBold ? 'secondary' : 'ghost'}
       >
         <Bold className="h-4 w-4" />
       </Button>
       <Button
         size="sm"
         onClick={() => editor.chain().focus().toggleUnderline().run()}
-        variant={editor.isActive('underline') ? 'secondary' : 'ghost'}
+        variant={isUnderline ? 'secondary' : 'ghost'}
       >
         <Underline className="h-4 w-4" />
       </Button>
       <Button
         size="sm"
         onClick={() => editor.chain().focus().toggleItalic().run()}
-        variant={editor.isActive('italic') ? 'secondary' : 'ghost'}
+        variant={isItalic ? 'secondary' : 'ghost'}
       >
         <Italic className="h-4 w-4" />
       </Button>
       <Button
         size="sm"
         onClick={() => editor.chain().focus().toggleCode().run()}
-        variant={editor.isActive('code') ? 'secondary' : 'ghost'}
+        variant={isCode ? 'secondary' : 'ghost'}
       >
         <Code className="h-4 w-4" />
       </Button>

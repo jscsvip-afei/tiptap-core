@@ -1,6 +1,6 @@
 'use client'
 
-import { Editor } from '@tiptap/react'
+import { Editor, useEditorState } from '@tiptap/react'
 import { Button } from '@/components/ui/button'
 import {
   Popover,
@@ -15,7 +15,16 @@ interface IProps {
 
 export default function AlignMenu(props: IProps) {
   const { editor } = props
-  if (editor == null) return
+  if (editor == null) return null
+
+  const { isLeft, isCenter, isRight } = useEditorState({
+    editor,
+    selector: (ctx) => ({
+      isLeft: ctx.editor.isActive({ textAlign: 'left' }),
+      isCenter: ctx.editor.isActive({ textAlign: 'center' }),
+      isRight: ctx.editor.isActive({ textAlign: 'right' }),
+    }),
+  })
 
   return (
     <Popover>
@@ -30,27 +39,21 @@ export default function AlignMenu(props: IProps) {
         <Button
           size="sm"
           onClick={() => editor.chain().focus().setTextAlign('left').run()}
-          variant={
-            editor.isActive({ textAlign: 'left' }) ? 'secondary' : 'ghost'
-          }
+          variant={isLeft ? 'secondary' : 'ghost'}
         >
           <AlignLeft className="h-4 w-4" />
         </Button>
         <Button
           size="sm"
           onClick={() => editor.chain().focus().setTextAlign('center').run()}
-          variant={
-            editor.isActive({ textAlign: 'center' }) ? 'secondary' : 'ghost'
-          }
+          variant={isCenter ? 'secondary' : 'ghost'}
         >
           <AlignCenter className="h-4 w-4" />
         </Button>
         <Button
           size="sm"
           onClick={() => editor.chain().focus().setTextAlign('right').run()}
-          variant={
-            editor.isActive({ textAlign: 'right' }) ? 'secondary' : 'ghost'
-          }
+          variant={isRight ? 'secondary' : 'ghost'}
         >
           <AlignRight className="h-4 w-4" />
         </Button>
