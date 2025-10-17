@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
@@ -13,6 +13,17 @@ export const LinkEditPanel = (props: LinkEditPanelProps) => {
   const { initialUrl = '', initialOpenInNewTab = false, onSetLink } = props
 
   const [url, setUrl] = useState(initialUrl)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    // 组件挂载后自动聚焦输入框
+    if (inputRef.current) {
+      inputRef.current.focus()
+      // 选中所有文本，方便编辑
+      inputRef.current.select()
+    }
+  }, [])
+
   const changeUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUrl(e.target.value)
   }
@@ -28,11 +39,17 @@ export const LinkEditPanel = (props: LinkEditPanelProps) => {
     <div className="block p-2">
       <div className="flex items-center gap-2">
         <Input
+          ref={inputRef}
           type="url"
           placeholder="https://"
           className="w-[200px] focus-visible:ring-transparent"
           value={url}
           onChange={changeUrl}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && isValidUrl) {
+              onSetLink(url, openInNewTab)
+            }
+          }}
         />
         <Button
           size="sm"

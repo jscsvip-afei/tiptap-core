@@ -11,7 +11,7 @@ export function LinkPreviewMenu(props: LinkPreviewMenuProps) {
   const { url, onEdit, onClear } = props
 
   return (
-    <>
+    <div className="flex items-center">
       <div className="inline-block max-w-[200px] text-nowrap overflow-hidden text-ellipsis pl-2 mt-1">
         <a
           href={url}
@@ -22,12 +22,28 @@ export function LinkPreviewMenu(props: LinkPreviewMenuProps) {
           {url}
         </a>
       </div>
-      <Button size="sm" onClick={onEdit} variant="ghost">
+      <Button 
+        size="sm" 
+        onClick={(e) => {
+          e.preventDefault()
+          onEdit()
+        }} 
+        variant="ghost"
+        onMouseDown={(e) => e.preventDefault()}
+      >
         <SquarePen className="h-4 w-4" />
       </Button>
-      <Button size="sm" onClick={onClear} variant="ghost">
+      <Button 
+        size="sm" 
+        onClick={(e) => {
+          e.preventDefault()
+          onClear()
+        }} 
+        variant="ghost"
+        onMouseDown={(e) => e.preventDefault()}
+      >
         <Unlink className="h-4 w-4" />
       </Button>
-    </>
+    </div>
   )
 }
