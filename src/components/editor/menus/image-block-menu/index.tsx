@@ -1,10 +1,11 @@
-import {  Editor } from '@tiptap/react'
+import { Editor, useEditorState, posToDOMRect } from '@tiptap/react'
 import { BubbleMenu } from '@tiptap/react/menus'
-import { useCallback } from 'react'
+import { useCallback, useRef } from 'react'
 import { v4 as uuid } from 'uuid'
 import { AlignLeft, AlignCenter, AlignRight, ChevronDown } from 'lucide-react'
 import Wrapper from '../bubble-menu-wrapper'
 import { Button } from '@/components/ui/button'
+import { EditorState, NodeSelection } from '@tiptap/pm/state'
 import {
   Popover,
   PopoverContent,
@@ -19,12 +20,36 @@ interface IProps {
 export default function ImageBlockMenu(props: IProps) {
   const { editor, appendTo } = props
 
+  if (editor == null) return null
+
+  const pluginKeyRef = useRef(`imageBlockMenu-${uuid()}`)
+
+  const {
+    isImageBlockActive,
+    isAlignLeft,
+    isAlignCenter,
+    isAlignRight,
+    imageWidth,
+  } = useEditorState({
+    editor,
+    selector: (ctx) => {
+      const attrs = ctx.editor.getAttributes('imageBlock') ?? {}
+      return {
+        isImageBlockActive: ctx.editor.isActive('imageBlock'),
+        isAlignLeft: ctx.editor.isActive('imageBlock', { align: 'left' }),
+        isAlignCenter: ctx.editor.isActive('imageBlock', { align: 'center' }),
+        isAlignRight: ctx.editor.isActive('imageBlock', { align: 'right' }),
+        imageWidth: attrs.width,
+      }
+    },
+  })
+
   // 是否显示菜单
-  const shouldShow = useCallback(() => {
-    if (editor == null) return false
-    const isActive = editor.isActive('imageBlock')
-    return isActive
-  }, [editor])
+  const shouldShow = useCallback(({ state }: { state: EditorState }) => {
+    const { selection } = state
+    if (!(selection instanceof NodeSelection)) return false
+    return selection.node.type.name === 'imageBlock'
+  }, [])
 
   const onAlignImageLeft = useCallback(() => {
     editor &&
@@ -65,14 +90,30 @@ export default function ImageBlockMenu(props: IProps) {
     [editor]
   )
 
-  if (editor == null) return
+  const getReferencedVirtualElement = useCallback(() => {
+    const { state, view } = editor
+    const { selection } = state
+
+    if (!(selection instanceof NodeSelection)) {
+      return null
+    }
+
+    const getRect = () => posToDOMRect(view, selection.from, selection.to)
+
+    return {
+      getBoundingClientRect: getRect,
+      getClientRects: () => [getRect()],
+    }
+  }, [editor])
 
   return (
     <BubbleMenu
       editor={editor}
-      pluginKey={`imageBlockMenu-${uuid()}`} // 多个菜单，需要不同的 key
+      pluginKey={pluginKeyRef.current} // 多个菜单，需要不同的 key
       updateDelay={0}
       shouldShow={shouldShow}
+      getReferencedVirtualElement={getReferencedVirtualElement}
+      appendTo={appendTo?.current ?? undefined}
       options={{
         placement: 'top',
         offset: 8,
@@ -82,40 +123,28 @@ export default function ImageBlockMenu(props: IProps) {
         <Button
           size="sm"
           onClick={onAlignImageLeft}
-          variant={
-            editor.isActive('imageBlock', { align: 'left' })
-              ? 'secondary'
-              : 'ghost'
-          }
+          variant={isAlignLeft ? 'secondary' : 'ghost'}
         >
           <AlignLeft className="h-4 w-4" />
         </Button>
         <Button
           size="sm"
           onClick={onAlignImageCenter}
-          variant={
-            editor.isActive('imageBlock', { align: 'center' })
-              ? 'secondary'
-              : 'ghost'
-          }
+          variant={isAlignCenter ? 'secondary' : 'ghost'}
         >
           <AlignCenter className="h-4 w-4" />
         </Button>
         <Button
           size="sm"
           onClick={onAlignImageRight}
-          variant={
-            editor.isActive('imageBlock', { align: 'right' })
-              ? 'secondary'
-              : 'ghost'
-          }
+          variant={isAlignRight ? 'secondary' : 'ghost'}
         >
           <AlignRight className="h-4 w-4" />
         </Button>
         <Popover>
           <PopoverTrigger asChild>
             <Button size="sm" variant="ghost">
-              {editor.getAttributes('imageBlock').width}
+              {imageWidth ?? ''}
               &nbsp;
               <ChevronDown className="h-2 w-2" />
             </Button>
