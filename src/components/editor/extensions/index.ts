@@ -8,6 +8,8 @@ import { TaskList, TaskItem  } from '@tiptap/extension-list'
 import { SlashCommands } from './slash-commands'
 import Document from './document'
 import { Columns, Column } from './column'
+import ImageBlock from './image-block'
+
 
 
 
@@ -37,4 +39,5 @@ export const extensions =  [
         nested: true,
       }),
       SlashCommands,
+      ImageBlock,
     ]

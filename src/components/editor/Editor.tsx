@@ -8,6 +8,8 @@ import TextMenu from './menus/text-menu'
 import Toolbar from './Toolbar'
 import ColumnsMenu from './menus/columns-menu'
 import LinkMenu from './menus/link-menu'
+import ImageBlockMenu from './menus/image-block-menu'
+
 
 
 interface IProps {
@@ -64,6 +66,7 @@ export default function Editor(props: IProps) {
             <TextMenu editor={editor} />
             <LinkMenu editor={editor} />
             <ColumnsMenu editor={editor} />
+            <ImageBlockMenu editor={editor} appendTo={menuContainerRef} />
           </div>
           </div>
       </div>
