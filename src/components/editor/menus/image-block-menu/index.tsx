@@ -24,18 +24,11 @@ export default function ImageBlockMenu(props: IProps) {
 
   const pluginKeyRef = useRef(`imageBlockMenu-${uuid()}`)
 
-  const {
-    isImageBlockActive,
-    isAlignLeft,
-    isAlignCenter,
-    isAlignRight,
-    imageWidth,
-  } = useEditorState({
+  const { isAlignLeft, isAlignCenter, isAlignRight, imageWidth } = useEditorState({
     editor,
     selector: (ctx) => {
       const attrs = ctx.editor.getAttributes('imageBlock') ?? {}
       return {
-        isImageBlockActive: ctx.editor.isActive('imageBlock'),
         isAlignLeft: ctx.editor.isActive('imageBlock', { align: 'left' }),
         isAlignCenter: ctx.editor.isActive('imageBlock', { align: 'center' }),
         isAlignRight: ctx.editor.isActive('imageBlock', { align: 'right' }),
@@ -44,12 +37,27 @@ export default function ImageBlockMenu(props: IProps) {
     },
   })
 
-  // 是否显示菜单
-  const shouldShow = useCallback(({ state }: { state: EditorState }) => {
-    const { selection } = state
-    if (!(selection instanceof NodeSelection)) return false
-    return selection.node.type.name === 'imageBlock'
-  }, [])
+  // 是否显示菜单 - 使用回调参数中的实时 state，而不是闭包中的旧 selection
+  const shouldShow = useCallback(
+    ({ state }: { state: EditorState; view: any; from: number; to: number }) => {
+      const { selection } = state
+      
+
+      
+      if (!(selection instanceof NodeSelection)) {
+
+        return false
+      }
+      
+
+      
+      const isImageBlock = selection.node.type.name === 'imageBlock'
+
+      
+      return isImageBlock
+    },
+    []
+  )
 
   const onAlignImageLeft = useCallback(() => {
     editor &&
@@ -90,34 +98,12 @@ export default function ImageBlockMenu(props: IProps) {
     [editor]
   )
 
-  const getReferencedVirtualElement = useCallback(() => {
-    const { state, view } = editor
-    const { selection } = state
-
-    if (!(selection instanceof NodeSelection)) {
-      return null
-    }
-
-    const getRect = () => posToDOMRect(view, selection.from, selection.to)
-
-    return {
-      getBoundingClientRect: getRect,
-      getClientRects: () => [getRect()],
-    }
-  }, [editor])
-
   return (
     <BubbleMenu
       editor={editor}
       pluginKey={pluginKeyRef.current} // 多个菜单，需要不同的 key
       updateDelay={0}
       shouldShow={shouldShow}
-      getReferencedVirtualElement={getReferencedVirtualElement}
-      appendTo={appendTo?.current ?? undefined}
-      options={{
-        placement: 'top',
-        offset: 8,
-      }}
     >
       <Wrapper>
         <Button

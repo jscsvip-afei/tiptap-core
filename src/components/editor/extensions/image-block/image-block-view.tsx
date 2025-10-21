@@ -25,15 +25,13 @@ export const ImageBlockView = (props: ImageBlockViewProps) => {
     node.attrs.align === 'center' && 'mx-auto'
   )
 
-  const onClick = useCallback(() => {
-    editor.commands.setNodeSelection(getPos()) // 选中图片
-  }, [getPos, editor.commands])
+
 
   return (
     <NodeViewWrapper>
       <div className={wrapperClassName} style={{ width: node.attrs.width }}>
         {/* eslint-disable-next-line  */}
-        <img className="block" src={src} alt="" onClick={onClick} />
+        <img className="block" src={src} alt="" />
       </div>
     </NodeViewWrapper>
   )
