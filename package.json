@@ -15,6 +15,7 @@
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-switch": "^1.2.6",
     "@tailwindcss/typography": "^0.5.19",
+    "@tiptap/extension-file-handler": "^3.7.2",
     "@tiptap/extension-highlight": "^3.6.6",
     "@tiptap/extension-image": "^3.7.2",
     "@tiptap/extension-list": "^3.6.6",
