@@ -9,7 +9,7 @@ import { SlashCommands } from './slash-commands'
 import Document from './document'
 import { Columns, Column } from './column'
 import ImageBlock from './image-block'
-
+import { ImageUpload } from './image-upload'
 
 
 
@@ -40,4 +40,5 @@ export const extensions =  [
       }),
       SlashCommands,
       ImageBlock,
+      ImageUpload,
     ]
