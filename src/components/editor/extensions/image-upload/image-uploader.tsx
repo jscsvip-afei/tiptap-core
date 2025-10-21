@@ -19,7 +19,7 @@ export default function ImageUploadView(props: ImageUploadViewProps) {
   }
 
   const { loading, uploadFile } = useUploader({ onUpload })
-  const { draggedInside, onDrop, onDragEnter, onDragLeave } = useDropZone({
+  const { draggedInside, onDrop, onDragEnter, onDragLeave, onDragOver } = useDropZone({
     uploader: uploadFile,
   })
 
@@ -46,7 +46,8 @@ export default function ImageUploadView(props: ImageUploadViewProps) {
     <div
       className={wrapperClass}
       onDrop={onDrop}
-      onDragOver={onDragEnter}
+      onDragEnter={onDragEnter}
+      onDragOver={onDragOver}
       onDragLeave={onDragLeave}
     >
       <ImageIcon className="w-12 h-12 mb-4 text-black dark:text-white opacity-20" />

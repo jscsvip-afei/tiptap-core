@@ -23,6 +23,9 @@ const useDropZone = ({ uploader }: { uploader: (file: File) => void }) => {
 
   const onDrop = useCallback(
     (e: DragEvent<HTMLDivElement>) => {
+      e.preventDefault()
+      e.stopPropagation()
+
       setDraggedInside(false)
 
       if (e.dataTransfer.files.length === 0) {
@@ -35,8 +38,6 @@ const useDropZone = ({ uploader }: { uploader: (file: File) => void }) => {
         return
       }
 
-      e.preventDefault()
-
       const file = filteredFiles[0]
       if (file) {
         uploader(file) // 上传图片
@@ -45,15 +46,24 @@ const useDropZone = ({ uploader }: { uploader: (file: File) => void }) => {
     [uploader]
   )
 
-  const onDragEnter = () => {
+  const onDragEnter = useCallback((e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
     setDraggedInside(true)
-  }
+  }, [])
 
-  const onDragLeave = () => {
+  const onDragOver = useCallback((e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+  }, [])
+
+  const onDragLeave = useCallback((e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
     setDraggedInside(false)
-  }
+  }, [])
 
-  return { isDragging, draggedInside, onDragEnter, onDragLeave, onDrop }
+  return { isDragging, draggedInside, onDragEnter, onDragLeave, onDragOver, onDrop }
 }
 
 export default useDropZone
