@@ -112,7 +112,7 @@ export const GROUPS: Group[] = [
         description: 'Insert an image',
         aliases: ['img'],
         action: (editor) => {
-          const defaultUrl = 'https://source.unsplash.com/8xznAGy4HcY/600x300'
+          const defaultUrl = 'https://placehold.co/800x400'
           const url = window.prompt('Image URL')
 
           editor
