@@ -12,6 +12,8 @@ import ImageBlock from './image-block'
 import { ImageUpload } from './image-upload'
 import FileHandler from '@tiptap/extension-file-handler'
 import { uploadImageAPI } from '@/components/editor/utils/api'
+import { Dropcursor } from '@tiptap/extension-dropcursor'
+
 
 
 
@@ -21,6 +23,7 @@ export const extensions =  [
       Column,
       StarterKit.configure({
         document: false,
+        dropcursor: false,
         link: { openOnClick: false },
       }),
       TextAlign.configure({
@@ -62,5 +65,9 @@ export const extensions =  [
               .run()
           })
         },
+      }),
+      Dropcursor.configure({
+        width: 2,
+        class: 'ProseMirror-dropcursor border-black',
       }),
     ]

@@ -35,6 +35,11 @@
     margin-bottom: 0.5em;
   }
 }
+
+.tiptap > * {
+  @apply mx-14;
+}
+
 /* 每一行都显示 placeholder */
 .tiptap p.is-empty::before {
   color: #adb5bd;

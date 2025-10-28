@@ -9,6 +9,7 @@ import Toolbar from './Toolbar'
 import ColumnsMenu from './menus/columns-menu'
 import LinkMenu from './menus/link-menu'
 import ImageBlockMenu from './menus/image-block-menu'
+import ContentMenu from './menus/content-menu'
 
 
 
@@ -63,6 +64,7 @@ export default function Editor(props: IProps) {
           >
           <div className="p-6"  ref={menuContainerRef}>
             <EditorContent editor={editor} />
+            <ContentMenu editor={editor} />
             <TextMenu editor={editor} />
             <LinkMenu editor={editor} />
             <ColumnsMenu editor={editor} />
