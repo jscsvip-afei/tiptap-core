@@ -4,12 +4,9 @@ import { useCallback, useState, useEffect } from 'react'
 import Wrapper from '../bubble-menu-wrapper'
 import { LinkPreviewMenu } from './preview-menu'
 import { LinkEditPanel } from './edit-panel'
+import { MenuProps } from '../types'
 
-interface IProps {
-  editor: Editor | null
-}
-
-export default function LinkMenu(props: IProps) {
+export default function LinkMenu(props: MenuProps) {
   const { editor } = props
 
   const [showEdit, setShowEdit] = useState(false)

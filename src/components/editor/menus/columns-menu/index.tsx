@@ -6,13 +6,10 @@ import { Columns2, PanelLeft, PanelRight, Trash2 } from 'lucide-react'
 import { ColumnLayout } from '@/components/editor/extensions/column/Columns'
 import { Button } from '@/components/ui/button'
 import Wrapper from '../bubble-menu-wrapper'
+import { MenuProps } from '../types'
 
 
-interface IProps {
-  editor: Editor | null
-}
-
-export default function ColumnsMenu(props: IProps) {
+export default function ColumnsMenu(props: MenuProps) {
   const { editor } = props
 
   // 菜单是否应该显示

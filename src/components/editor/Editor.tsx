@@ -10,6 +10,8 @@ import ColumnsMenu from './menus/columns-menu'
 import LinkMenu from './menus/link-menu'
 import ImageBlockMenu from './menus/image-block-menu'
 import ContentMenu from './menus/content-menu'
+import { TableRowMenu, TableColMenu } from './menus/table-menu'
+
 
 
 
@@ -68,7 +70,9 @@ export default function Editor(props: IProps) {
             <TextMenu editor={editor} />
             <LinkMenu editor={editor} />
             <ColumnsMenu editor={editor} />
-            <ImageBlockMenu editor={editor} appendTo={menuContainerRef} />
+            <ImageBlockMenu editor={editor} />
+            <TableRowMenu editor={editor} appendTo={menuContainerRef} />
+            <TableColMenu editor={editor} appendTo={menuContainerRef} />
           </div>
           </div>
       </div>

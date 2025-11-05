@@ -32,6 +32,7 @@ export default function TextMenu(props: IProps) {
       'imageUpload',
       'horizontalRule',
       'link',
+      'table',
     ]
     if (customTypes.some((type) => editor.isActive(type))) return false
     // 其他，看是否选中了文本

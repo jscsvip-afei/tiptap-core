@@ -13,8 +13,7 @@ import { ImageUpload } from './image-upload'
 import FileHandler from '@tiptap/extension-file-handler'
 import { uploadImageAPI } from '@/components/editor/utils/api'
 import { Dropcursor } from '@tiptap/extension-dropcursor'
-
-
+import { Table, TableCell, TableRow, TableHeader } from './table/index'
 
 
 export const extensions =  [
@@ -32,6 +31,10 @@ export const extensions =  [
       SubScript,
       Superscript,
       Highlight.configure({ multicolor: true }),
+      Table,
+      TableCell,
+      TableRow,
+      TableHeader,
       Placeholder.configure({
         placeholder: '输入 / 设置格式',
       }),
