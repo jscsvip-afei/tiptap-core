@@ -71,8 +71,8 @@ export default function Editor(props: IProps) {
             <LinkMenu editor={editor} />
             <ColumnsMenu editor={editor} />
             <ImageBlockMenu editor={editor} />
-            <TableRowMenu editor={editor} appendTo={menuContainerRef} />
-            <TableColMenu editor={editor} appendTo={menuContainerRef} />
+            <TableRowMenu editor={editor}/>
+            <TableColMenu editor={editor}/>
           </div>
           </div>
       </div>

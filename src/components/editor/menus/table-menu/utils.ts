@@ -3,7 +3,6 @@ import { EditorState } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
 
 import { isTableSelected } from '@/components/editor/extensions/table/utils'
-import { Table } from '@/components/editor/extensions/table/index'
 
 export const isRowGripSelected = ({
   editor,
@@ -21,7 +20,7 @@ export const isRowGripSelected = ({
   const node = nodeDOM || domAtPos
 
   if (
-    !editor.isActive(Table.name) ||
+    !editor.isActive('table') ||
     !node ||
     isTableSelected(state.selection)
   ) {
@@ -58,7 +57,7 @@ export const isColumnGripSelected = ({
   const node = nodeDOM || domAtPos
 
   if (
-    !editor.isActive(Table.name) ||
+    !editor.isActive('table') ||
     !node ||
     isTableSelected(state.selection)
   ) {

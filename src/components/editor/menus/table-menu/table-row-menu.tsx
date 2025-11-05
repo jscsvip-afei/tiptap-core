@@ -1,4 +1,4 @@
-import { BubbleMenu } from '@tiptap/react'
+import { BubbleMenu } from '@tiptap/react/menus'
 import React, { useCallback } from 'react'
 import { ArrowUpToLine, ArrowDownToLine, Trash2 } from 'lucide-react'
 import { MenuProps, ShouldShowProps } from '../types'
@@ -7,14 +7,14 @@ import Wrapper from '../bubble-menu-wrapper'
 import { Button } from '@/components/ui/button'
 
 export const TableRowMenu = (props: MenuProps) => {
-  const { editor, appendTo } = props
+  const { editor } = props
 
   const shouldShow = useCallback(
     ({ view, state, from }: ShouldShowProps) => {
-      if (editor == null) return false
-      if (!state || !from) {
+      if (editor == null || !state || typeof from !== 'number') {
         return false
       }
+      
       return isRowGripSelected({ editor, view, state, from })
     },
     [editor]
@@ -43,16 +43,13 @@ export const TableRowMenu = (props: MenuProps) => {
       pluginKey="tableRowMenu"
       updateDelay={0}
       shouldShow={shouldShow}
-      tippyOptions={{
+      options={{
         placement: 'left',
-        offset: [0, 8],
-        popperOptions: {
-          modifiers: [{ name: 'flip', enabled: false }],
-        },
-        appendTo: () => {
-          return appendTo?.current
-        },
+        offset: { mainAxis: 10, crossAxis: 0 },
+        flip: true 
+
       }}
+      style={{'backgroundColor': '#fff'}}
     >
       <Wrapper className="flex-col items-start">
         <Button onClick={onAddRowBefore} size="sm" variant="ghost">

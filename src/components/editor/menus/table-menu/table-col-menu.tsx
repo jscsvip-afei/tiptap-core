@@ -7,15 +7,15 @@ import { Button } from '@/components/ui/button'
 import { isColumnGripSelected } from './utils'
 
 export const TableColMenu = (props: MenuProps) => {
-  const { editor, appendTo } = props
+  const { editor } = props
 
   const shouldShow = useCallback(
     ({ view, state, from }: ShouldShowProps) => {
-      if (editor == null) return false
-      if (!state) {
+      if (editor == null || !state || typeof from !== 'number') {
         return false
       }
-      return isColumnGripSelected({ editor, view, state, from: from || 0 })
+      
+      return isColumnGripSelected({ editor, view, state, from })
     },
     [editor]
   )
@@ -40,17 +40,13 @@ export const TableColMenu = (props: MenuProps) => {
   return (
     <BubbleMenu
       editor={editor}
-      pluginKey="tableRowMenu"
+      pluginKey="tableColMenu"
       updateDelay={0}
       shouldShow={shouldShow}
-      tippyOptions={{
-        offset: [0, 8],
-        popperOptions: {
-          modifiers: [{ name: 'flip', enabled: false }],
-        },
-        appendTo: () => {
-          return appendTo?.current
-        },
+      options={{
+        placement: 'bottom',
+        offset: { mainAxis: 10, crossAxis: 0 },
+        flip: true 
       }}
     >
       <Wrapper className="flex-col items-start">

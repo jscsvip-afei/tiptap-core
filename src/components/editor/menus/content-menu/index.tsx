@@ -31,10 +31,6 @@ export default function ContentMenu({ editor }: ContentMenuProps) {
       pluginKey="ContentItemMenu"
       editor={editor}
       onNodeChange={handleNodeChange}
-      tippyOptions={{
-        offset: [-2, 16],
-        zIndex: 99,
-      }}
     >
       <div className="flex items-center gap-0.5 text-muted-foreground">
         <AddButton
