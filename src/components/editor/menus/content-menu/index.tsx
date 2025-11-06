@@ -32,7 +32,7 @@ export default function ContentMenu({ editor }: ContentMenuProps) {
       editor={editor}
       onNodeChange={handleNodeChange}
     >
-      <div className="flex items-center gap-0.5 text-muted-foreground">
+      <div className="flex items-center gap-0.5 text-muted-foreground pr-2.5">
         <AddButton
           editor={editor}
           currentNode={currentNode}
